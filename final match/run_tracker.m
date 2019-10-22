@@ -17,12 +17,18 @@ function [precision, fps] = run_tracker(video,show_visualization, show_plots)
     padding = 1.5;  %extra area surrounding the target
 	lambda = 1e-4;  %regularization
 	output_sigma_factor = 0.1;  %spatial bandwidth (proportional to target)
+    
+    features.gray = false;
+    features.hog = false;
+    features.CN_Color = true;           %ÌØÕ÷Ñ¡Ôñ
+    features.HOG_CN_Color = false;
+    features.hog_orientations = 9;
+    
     cell_size = 1;
-    [params,features] = makeParams(video);
+    [params] = makeParams(video);
     sz_factor = params.sz_factor;
 	%parameters according to the paper. at this point we can override
 	%parameters based on the chosen kernel or feature type
-
     [img_files, pos, target_sz, ground_truth, video_path,~] = load_video_info(base_path, video);
     target_sz = target_sz*sz_factor;
 	%call tracker function with all the relevant parameters
